@@ -8,8 +8,8 @@ public class Triominos {
 		int base,size;
 		base =  2 + Math.abs(generator.nextInt())%15;
 		size =  1 + Math.abs(generator.nextInt())%6;
-		Jeu jeu=new Jeu(size,base);
-		Plateau p=new Plateau(size);
+		Jeu jeu = new Jeu(size,base);
+		Plateau p = new Plateau(size);
 		jeu.affiche();
 
 		/*  placer les triominos sur le plateau.
@@ -45,7 +45,7 @@ public class Triominos {
 
 
 	static char charorstar(Triomino t,int c) {
-		if (t!=null) {
+		if (t != null) {
 			return (onechar(c));
 		} else {
 			return('*');
@@ -58,31 +58,38 @@ public class Triominos {
 
 	static void affiche_plateau_mini(Plateau p) {
 		for (int i = 0 ; i < p.largeur ; i++) {
-			for (int l=0; l<3; l++) {      
+			for (int l = 0; l < 3; l++) {      
 				int k;
-				for(k=0 ; k<p.largeur-i;k++) System.out.print("   ");
-				if (l%2>0) System.out.print(" ");
+				for(k = 0 ; k < p.largeur-i; k++) {
+					System.out.print("   ");
+				}
+
+				if (l%2 > 0) {
+					System.out.print(" ");
+				}
 				
-				for (int j=0 ; j <= 2*i ; j++ ){
+				for (int j = 0 ; j <= 2*i ; j++ ){
 					Triomino t=p.get(i,j);
 					switch (l) {
 					case 0:
 					/* top line */
-						if (j%2>0)
-								System.out.print(" "+charorstar(t,t.a));
-						else
+						if (j%2 > 0) {
+							System.out.print(" "+charorstar(t,t.a));
+						} else {
 							System.out.print("  ^ ");
+						}
 						break;
 					case 1:
 					/* middle line */
-						if (j%2>0)
-								System.out.print(charorstar(t,t.b)+" "+charorstar(t,t.c));
-						else
-								System.out.print(charorstar(t,t.c)+" "+charorstar(t,t.b));
+						if (j%2 > 0) {
+							System.out.print(charorstar(t,t.b)+" "+charorstar(t,t.c));
+						} else {
+							System.out.print(charorstar(t,t.c)+" "+charorstar(t,t.b));
+						}
 						break;
 					case 2:
 					/* bottom line */
-						if (j%2>0) {
+						if (j%2 > 0) {
 							System.out.print(" ");
 						} else {
 							System.out.print("/_" + charorstar(t,t.a) + "_\\");
