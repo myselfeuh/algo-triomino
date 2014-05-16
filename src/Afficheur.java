@@ -1,31 +1,25 @@
-import java.util.Random;
+/**
+ * Classe Afficheur qui s'occupe d'afficher les problemes generes,
+ * ainsi que les solution eventuellement trouvees. 
+ */
 
-public class Triominos {
+public class Afficheur {
 	
-	public static void main(String args[]) {
+	private Jeu jeu;
+	
+	public Afficheur (Jeu jeu_p) {
+		this.jeu = jeu_p;
+	}
+	
+	public void afficherSolution() {
 		
-		System.out.println("Jeu des triominos");
-		Random generator = new Random();
-		int base, size;
-		// il choisit une base au hasard entre 2 et 16, 
-		// c-a-d que les valeur des triominos qui seront generes seront <= a la base choisie
-		// base =  2 + Math.abs(generator.nextInt())%15;
-		// ! on fixe la base a 10 pour des raisons de commodite !
-		base = 10;
-		// il choisit une taille de probleme entre 1 et 6 
-		// c-a-d la valeur de N pour creer un probleme a N² triominos
-		size =  1 + Math.abs(generator.nextInt())%6;
-		
-		// il cree le jeu (qui lui cree les triominos)
-		Jeu jeu = new Jeu(size, base);
+		System.out.println("Solution trouvee :");
 		// il cree un plateau vide de taille N (size)
-		Plateau p = new Plateau(size);
-		// il affiche tous les triominos cotes a cotes, 12 par ligne 
-		jeu.affiche();
-
+		Plateau p = new Plateau(jeu.getLargeur());
+		
 		// il place les triominos dans les colonnes du plateau
 		int k = 0;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < jeu.getLargeur(); i++) {
 		// il y a N (size) colonnes dans le plateau
 			for (int j = 0; j < 2*i+1; j++) {
 			// il y a 2*i+1 case dans la colonne i
@@ -39,7 +33,7 @@ public class Triominos {
 
 	/*  
 	 * conversion d'un entier positif (<62) en caractere [0-9A-Za-z]
-	 * ! inutile car on fixe la base a 10 !
+	 * ! inutile car on fixe la base a 16 !
 	 */
 //	static char onechar(int value) {
 //		if (value >= 0) {
@@ -57,19 +51,19 @@ public class Triominos {
 	
 	// methode qui renvoit une etoile comme valeur si le triomino est null
 	// et qui renvoit la valeur si le triomino est non null
-	static int charorstar(Triomino t, int c) {
-		if (t != null) {
-			return (c);
-		} else {
-			return('*');
-		}
-	}
+	// private static int charorstar(Triomino t, int c) {
+	// 	if (t == null) {
+	// 		return ('*');
+	// 	} else {
+	// 		return(c);
+	//	}
+	// }
 
 	/*
 	 * affiche un plateau, meme partiellement rempli.
 	 */
 
-	static void affiche_plateau_mini(Plateau p) {
+	private static void affiche_plateau_mini(Plateau p) {
 				
 		for (int i = 0 ; i < p.largeur ; i++) {
 		// boucle qui parcourt le plateau dans sa largeur
@@ -95,14 +89,15 @@ public class Triominos {
 				}
 				
 				for (int j = 0 ; j <= 2*i ; j++ ){
-					Triomino t = p.get(i,j);
+					Triomino t = p.get(i, j);
 					switch (l) {
 					case 0:
 					// 1ere ligne
 						if (j%2 != 0) {
 						// on verifie si le triomino a la pointe vers le haut ou vers le bas
 							// s'il est vers le bas on ecrit a
-							System.out.print("\\-" + charorstar(t, t.a) + "-/");
+							System.out.print("\\-" + Integer.toHexString(t.getA()).toUpperCase() + "-/");
+							// System.out.print("\\-" + "x" + "-/");
 						} else {
 							// s'il est vers le haut on ecrit la pointe
 							System.out.print("^");
@@ -113,10 +108,14 @@ public class Triominos {
 						if (j%2 != 0) {
 						// on verifie si le triomino a la pointe vers le haut ou vers le bas
 							// s'il est vers le bas on ecrit d'abord b puis c  
-							System.out.print(charorstar(t, t.b)+" "+charorstar(t, t.c));
+							System.out.print(Integer.toHexString(t.getB()).toUpperCase() + " " 
+											+ Integer.toHexString(t.getC()).toUpperCase());
+							// System.out.print("x" + " " + "x");
 						} else {
 							// s'il est vers le haut on ecrit d'abord c puis b  
-							System.out.print(charorstar(t, t.c)+" "+charorstar(t, t.b));
+							System.out.print(Integer.toHexString(t.getC()).toUpperCase() + " " 
+											+ Integer.toHexString(t.getB()).toUpperCase());
+							// System.out.print("x x");
 						}
 						break;
 					case 2:
@@ -127,7 +126,8 @@ public class Triominos {
 							System.out.print("v");
 						} else {
 							// s'il est vers le haut on ecrit le coin inferieur gauche puis a puis le coin inferieur droit
-							System.out.print("/_" + charorstar(t,t.a) + "_\\");
+							System.out.print("/_" + Integer.toHexString(t.getA()).toUpperCase() + "_\\");
+							// System.out.print("/_x_\\");
 						}
 					}
 				}

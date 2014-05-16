@@ -14,7 +14,7 @@ public class Plateau {
 
 	// place le triomino t dans la case j de la colonne i
 	void set(int i, int j, Triomino t) {
-		triominos[i].set(j,t);
+		triominos[i].set(j, t);
 	}
 	
 	// retourne le triomino t de la case j de la colonne i

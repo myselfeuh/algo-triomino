@@ -1,7 +1,7 @@
 
 public class Triomino {
     
-	int a, b, c;
+	private int a, b, c;
     
 	Triomino (int a, int b, int c) {
 		this.a = a;
