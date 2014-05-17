@@ -24,7 +24,7 @@ public class Afficheur {
 			for (int j = 0; j < 2*i+1; j++) {
 			// il y a 2*i+1 case dans la colonne i
 				// il recupere le k ieme triomino dans le jeu et le place dans le plateau
-				p.set(i, j, jeu.get(k));
+				p.set(i, j, jeu.getTriomino(k));
 				k++;
 			}
 		}
@@ -89,7 +89,7 @@ public class Afficheur {
 						if (j%2 != 0) {
 						// on verifie si le triomino a la pointe vers le haut ou vers le bas
 							// s'il est vers le bas on ecrit a
-							System.out.print("\\-" + Integer.toHexString(t.getA()).toUpperCase() + "-/");
+							System.out.print("\\-" + Integer.toHexString(t.getLeft()).toUpperCase() + "-/");
 						} else {
 							// s'il est vers le haut on ecrit la pointe
 							System.out.print("^");
@@ -100,12 +100,12 @@ public class Afficheur {
 						if (j%2 != 0) {
 						// on verifie si le triomino a la pointe vers le haut ou vers le bas
 							// s'il est vers le bas on ecrit d'abord b puis c  
-							System.out.print(Integer.toHexString(t.getB()).toUpperCase() + " " 
-											+ Integer.toHexString(t.getC()).toUpperCase());
+							System.out.print(Integer.toHexString(t.getRight()).toUpperCase() + " " 
+											+ Integer.toHexString(t.getCenter()).toUpperCase());
 						} else {
 							// s'il est vers le haut on ecrit d'abord c puis b  
-							System.out.print(Integer.toHexString(t.getC()).toUpperCase() + " " 
-											+ Integer.toHexString(t.getB()).toUpperCase());
+							System.out.print(Integer.toHexString(t.getCenter()).toUpperCase() + " " 
+											+ Integer.toHexString(t.getRight()).toUpperCase());
 						}
 						break;
 					case 2:
@@ -116,7 +116,7 @@ public class Afficheur {
 							System.out.print("v");
 						} else {
 							// s'il est vers le haut on ecrit le coin inferieur gauche puis a puis le coin inferieur droit
-							System.out.print("/_" + Integer.toHexString(t.getA()).toUpperCase() + "_\\");
+							System.out.print("/_" + Integer.toHexString(t.getLeft()).toUpperCase() + "_\\");
 						}
 					}
 				}

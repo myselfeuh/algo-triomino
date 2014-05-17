@@ -25,6 +25,11 @@ public class Parseur {
 			System.out.println("Probleme " + (i+1) + " :");
 			jeu_non_resolu.affiche();
 			
+			// debug
+			Afficheur aff1 = new Afficheur(jeu_non_resolu);
+			aff1.afficherPyramide();
+			// fin debug
+			
 			// Creation du solveur 
 			Solveur solv = new Solveur(jeu_non_resolu);
 			Jeu jeu_resolu = solv.getSolution();
