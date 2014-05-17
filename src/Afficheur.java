@@ -11,7 +11,7 @@ public class Afficheur {
 		this.jeu = jeu_p;
 	}
 	
-	public void afficherSolution() {
+	public void afficherPyramide() {
 		
 		System.out.println("Solution trouvee :");
 		// il cree un plateau vide de taille N (size)
@@ -29,6 +29,8 @@ public class Afficheur {
 			}
 		}
 		affiche_plateau_mini(p);
+		System.out.println("");
+		System.out.println("");
 	}
 
 	/*  
@@ -49,15 +51,6 @@ public class Afficheur {
 //		return('\0');
 //	}
 	
-	// methode qui renvoit une etoile comme valeur si le triomino est null
-	// et qui renvoit la valeur si le triomino est non null
-	// private static int charorstar(Triomino t, int c) {
-	// 	if (t == null) {
-	// 		return ('*');
-	// 	} else {
-	// 		return(c);
-	//	}
-	// }
 
 	/*
 	 * affiche un plateau, meme partiellement rempli.
@@ -97,7 +90,6 @@ public class Afficheur {
 						// on verifie si le triomino a la pointe vers le haut ou vers le bas
 							// s'il est vers le bas on ecrit a
 							System.out.print("\\-" + Integer.toHexString(t.getA()).toUpperCase() + "-/");
-							// System.out.print("\\-" + "x" + "-/");
 						} else {
 							// s'il est vers le haut on ecrit la pointe
 							System.out.print("^");
@@ -110,12 +102,10 @@ public class Afficheur {
 							// s'il est vers le bas on ecrit d'abord b puis c  
 							System.out.print(Integer.toHexString(t.getB()).toUpperCase() + " " 
 											+ Integer.toHexString(t.getC()).toUpperCase());
-							// System.out.print("x" + " " + "x");
 						} else {
 							// s'il est vers le haut on ecrit d'abord c puis b  
 							System.out.print(Integer.toHexString(t.getC()).toUpperCase() + " " 
 											+ Integer.toHexString(t.getB()).toUpperCase());
-							// System.out.print("x x");
 						}
 						break;
 					case 2:
@@ -127,7 +117,6 @@ public class Afficheur {
 						} else {
 							// s'il est vers le haut on ecrit le coin inferieur gauche puis a puis le coin inferieur droit
 							System.out.print("/_" + Integer.toHexString(t.getA()).toUpperCase() + "_\\");
-							// System.out.print("/_x_\\");
 						}
 					}
 				}

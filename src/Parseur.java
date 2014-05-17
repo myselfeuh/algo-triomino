@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 public class Parseur {
 	
+	private static boolean debug = false; 
 	private static ArrayList<Jeu> jeux_a_resoudre = new ArrayList<Jeu>(1);
-	private static ArrayList<Jeu> jeux_resolus = new ArrayList<Jeu>(1);
 	
 	public static void main(String[] args) {
 				
@@ -20,16 +20,24 @@ public class Parseur {
 		
 		for (int i = 0; i < jeux_a_resoudre.size(); i++) {
 		// pour chaque probleme cree on lance la procedure de resolution :
+			Jeu jeu_non_resolu = jeux_a_resoudre.get(i);
+			// Affichage du probleme a resoudre
+			System.out.println("Probleme " + (i+1) + " :");
+			jeu_non_resolu.affiche();
 			
-			jeux_a_resoudre.get(i).affiche();
-			Afficheur aff = new Afficheur(jeux_a_resoudre.get(i));
-			aff.afficherSolution();
+			// Creation du solveur 
+			Solveur solv = new Solveur(jeu_non_resolu);
+			Jeu jeu_resolu = solv.resoudre();
 			
-			// for (int j = 0; j < jeux_resolus.size(); j++) {
-			// pour chaque probleme resolu on lance la procedure d'affichage du resultat :
-				// Creation d'un afficheur associé au jeu resolu
-				// Afficheur aff = new Afficheur(jeux_resolus.get(j));
-			// }
+				if (jeu_resolu == null){
+				// Si le jeu n'a pas de solution
+					System.out.println("Ce probleme n'a pas de solution... :(");
+				} else {
+				// Si le jeu a une solution, on l'affiche
+					// Creation d'un afficheur associé au jeu resolu et affichage de la pyramide
+					Afficheur aff = new Afficheur(jeu_resolu);
+					aff.afficherPyramide();
+				}
 		}
 		
 	}
@@ -56,7 +64,9 @@ public class Parseur {
 				
 				ArrayList<Triomino> listeTriominos = new ArrayList<Triomino>(1);
 				
-				System.out.println("Lecture de la serie " + k + " :");
+				if (debug){
+					System.out.println("Lecture de la serie " + k + " :");
+				}
 				int i = 1;
 				input = bufReader.readLine();
 				
@@ -78,14 +88,18 @@ public class Parseur {
 					}
 					i++;
 					input = bufReader.readLine();
-					System.out.println("Ligne "+i);
-					if (input != null) {
-						System.out.println(input.toString());
+					if (debug){
+						System.out.println("Ligne "+i);
+						if (input != null) {
+							System.out.println(input.toString());
+						}
 					}
 				}
-				System.out.println("");
+				if (debug){
+					System.out.println("");
+					System.out.println("Resultat :");
+				}
 				
-				System.out.println("Resultat :");
 				Triomino triomino;
 				
 				for (int j = 0; j < bottoms.length; j++) {
@@ -99,17 +113,20 @@ public class Parseur {
 					);
 					// on ajoute le triomino cree a la liste
 					listeTriominos.add(triomino);
-					System.out.println("Triomino" + (j+1) + " = " + triomino.toString());
+					if (debug){
+						System.out.println("Triomino" + (j+1) + " = " + triomino.toString());
+					}
 				}
 				// Creation du jeu a partir des donnees lues juste au-dessus
 				int largeur_jeu = (int) Math.sqrt(bottoms.length);
 				listeTriominos.trimToSize();
-				System.out.println("Creation du jeu " + k + " :" + " de taille " + listeTriominos.size());
 				Jeu jeu = new Jeu(largeur_jeu, listeTriominos);
 				jeux_a_resoudre.add(jeu);
-								
+				if (debug){
+					System.out.println("Creation du jeu " + k + " :" + " de taille " + listeTriominos.size());
 				// Saut de ligne et incrementation pour la lecture du jeu suivant
 				System.out.println("");
+				}
 				k++;
 			}
 			

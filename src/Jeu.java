@@ -31,6 +31,7 @@ public class Jeu {
 			}
 			System.out.println("");
 		}
+		System.out.println("");
 	}
 
 	public Triomino get(int i) {
