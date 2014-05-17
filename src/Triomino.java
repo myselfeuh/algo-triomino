@@ -6,7 +6,7 @@ public class Triomino {
 	/**
 	 * constructor
 	 */
-	public Triomino (int left, int right, int center) {
+	public Triomino (int center, int right, int left) {
 		this.left = left;
 		this.right = right;
 		this.center = center;
@@ -26,8 +26,9 @@ public class Triomino {
 
     @Override
 	public String toString() {
-		return (
-			"[left=" + Integer.toHexString(this.left) + ", right=" + Integer.toHexString(this.right) + ", center=" + Integer.toHexString(this.center) + "]");
+		return ("[left=" + Integer.toHexString(this.left) 
+				+ ", right=" + Integer.toHexString(this.right) 
+				+ ", center=" + Integer.toHexString(this.center) + "]");
 	}
     
 	// getter for left

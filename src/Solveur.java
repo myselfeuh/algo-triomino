@@ -12,6 +12,7 @@ public class Solveur {
 	private Jeu jeu_resolu;
 	private ArrayList<Triomino> liste_rangee;
 	private int N;
+	private int nb_essais;
 	
 	// initialisation des variables dans le constructeur
 	public Solveur(Jeu jeu_p) {
@@ -24,10 +25,17 @@ public class Solveur {
 
 	// methode renvoyant un Jeu trie si une solution a ete trouvee et null sinon
 	public Jeu getSolution() {
+		nb_essais = 0;
+		System.out.println("AVANT => Taille liste a ranger : " + liste_a_ranger.size() 
+						+ " - Taille liste rangee : " + liste_rangee.size());
 		
 		if ( this.resoudre(0) ) {
 			jeu_resolu = new Jeu(this.jeu_a_resoudre.getLargeur(), liste_rangee);	
 		} 
+
+		System.out.println("Nb d'essais : " + nb_essais);
+		System.out.println("APRES => Taille liste a ranger : " + liste_a_ranger.size() 
+				+ " - Taille liste rangee : " + liste_rangee.size());
 		
 		return this.jeu_resolu;
 	}
@@ -63,62 +71,84 @@ public class Solveur {
 		* fsi
 		*/
 		boolean sol_trouvee = false;
-		boolean res = true;
+		boolean contraintes_ok = false;
 		int next_pos = this.next();
 		
-		if ( next_pos == liste_a_ranger.size() ) {
+		nb_essais++;
+		
+		if ( next_pos == -1 ) {
 			sol_trouvee = true;
 		} else {
 			for (int k = 0; k < liste_a_ranger.size(); k++) {
 				Triomino t = liste_a_ranger.get(k); 
 				liste_a_ranger.remove(t);
+				
 				for (int i = 0; i < 3; i++) {
-					if ( this.verifContraintes(t, pos) ) {
-					// si les contraintes sont respectees on pose le triomino
-						// liste_rangee.set(pos, t);
-						liste_rangee.add(pos, t);
-						
-						if ( res = this.resoudre(next_pos) ) {
-							sol_trouvee = true;
+				// on a 3 essais possible par triomino et on le tourne 2 fois maximum
+					if (!contraintes_ok) {
+					// si le triomino ne respecte pas les contraintes, on le tourne et on reessaye :
+					
+						if ( contraintes_ok = this.verifContraintes(t, pos) ) {
+						// si les contraintes sont respectees on pose le triomino
+							liste_rangee.add(pos, t);
+							
+							if ( this.resoudre(next_pos) ) {
+							// si l'appel suivant a la fonction resoudre renvoit true alors c'est gagné
+								sol_trouvee = true;
+							} else {
+							// sinon on enleve ce triomino
+								liste_rangee.remove(pos);
+							}
 						} else {
-							liste_rangee.remove(pos);
+							t.rotation();
 						}
-					} else {
-						t.rotation();
 					}
 				}
-				if (!res) {
+				
+				if (!sol_trouvee) {
+				// si on a pas trouve on remet le triomino dans la liste des triominos a ranger
 					liste_a_ranger.add(k,t);
-					liste_a_ranger.trimToSize();
 				}	
 			}
 			// sol_trouvee = false;
 		} 
-
-		System.out.println(sol_trouvee);
 		return sol_trouvee;
 	}
 	
+	private int next() {
+		if (liste_rangee.size() < N*N ) {
+			return liste_rangee.size()+1;
+		} else {
+			return -1;
+		} 
+	}
+
 	private boolean verifContraintes(Triomino t, int pos) {
 		boolean verif = false;
+		int etage = (int) Math.sqrt(pos); 
+		int index_ligne = pos - etage*etage;
 		
-		if (pos == 0 || pos%N == 1) {
+		if (pos == 0 || pos %N == 1) {
 			verif = true;
-		} else if (pos%2 == 0) {
+		} else if (index_ligne %2 == 0) {
 			// verifier a gauche
 			verif = ( t.getLeft() == liste_rangee.get(pos -1).getRight() );
-		} else if (pos%2 == 1) {
-			// verifier en haut
+		} else if (index_ligne %2 == 1) {
+		// si le triomino a la tete en bas, alors il faut le comparer avec celui du dessus et celui de gauche
+			// j est la position du triomino du dessus
 			int j = pos - 2*( (int)Math.sqrt(pos) );
-			verif = ( t.getCenter() == liste_rangee.get(j).getCenter() ) &&
-			// verifier a gauche 
-					( t.getLeft() == liste_rangee.get(pos -1).getRight() );
+			int centerT = t.getCenter(); 
+			int centerH = liste_rangee.get(j).getCenter();
+			int rightT = t.getRight(); 
+			int rightH = liste_rangee.get(pos -1).getRight();
+			verif = (centerT == centerH) && (rightT == rightH);
+			// verifier en haut :
+			// verif = ( t.getCenter() == liste_rangee.get(j).getCenter() ) &&
+			// et verifier a gauche :
+			// 		( t.getRight() == liste_rangee.get(pos -1).getRight() );
 		}
 		
 		return verif;
 	}
 
-	private int next() {
-		return liste_rangee.size();
-	}
 }

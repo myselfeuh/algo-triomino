@@ -21,13 +21,13 @@ public class Jeu {
 			System.out.println("");
 			
 			for(j2 = i ; (j2 < listeTriominos.size()) && (j2 < i+12) ; j2++) {
-				System.out.print("  "+ Integer.toHexString(listeTriominos.get(j2).getCenter()).toUpperCase() + " " 
+				System.out.print("  "+ Integer.toHexString(listeTriominos.get(j2).getLeft()).toUpperCase() + " " 
 									 + Integer.toHexString(listeTriominos.get(j2).getRight()).toUpperCase() + " ");
 			}
 			System.out.println("");
 			
 			for(j3 = i ; (j3 < listeTriominos.size()) && (j3 < i+12) ; j3++) {
-				System.out.print(" /_" + Integer.toHexString(listeTriominos.get(j3).getLeft()).toUpperCase() + "_\\");
+				System.out.print(" /_" + Integer.toHexString(listeTriominos.get(j3).getCenter()).toUpperCase() + "_\\");
 			}
 			System.out.println("");
 		}

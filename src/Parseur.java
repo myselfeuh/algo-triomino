@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class Parseur {
 			jeu_non_resolu.affiche();
 			
 			// debug
-			Afficheur aff1 = new Afficheur(jeu_non_resolu);
-			aff1.afficherPyramide();
+			// Afficheur aff1 = new Afficheur(jeu_non_resolu);
+			// aff1.afficherPyramide();
 			// fin debug
 			
 			// Creation du solveur 
@@ -37,6 +38,7 @@ public class Parseur {
 				if (jeu_resolu == null){
 				// Si le jeu n'a pas de solution
 					System.out.println("Ce probleme n'a pas de solution... :(");
+					System.out.println("");
 				} else {
 				// Si le jeu a une solution, on l'affiche
 					// Creation d'un afficheur associé au jeu resolu et affichage de la pyramide
@@ -53,6 +55,9 @@ public class Parseur {
 		BufferedWriter bufWriter = null;
 		
 		try {
+			// redirection de stdin pour que Eclipse le prenne en compte
+			System.setIn(new FileInputStream("FichierSource3.txt"));
+			
 			bufReader = new BufferedReader(new InputStreamReader(System.in));
 		    
 			String[] middles, middle, bottoms;
