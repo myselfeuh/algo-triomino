@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Classe Solveur qui s'occupe de ranger dans l'ordre le jeu qu'on lui fournit
  *
@@ -5,20 +7,35 @@
 
 public class Solveur {
 
-	private Jeu jeu;
+	private Jeu jeu_a_resoudre;
+	private Jeu jeu_resolu = null;
+	private ArrayList<Triomino> listeRangee = new ArrayList<Triomino>(1);
 	
 	public Solveur(Jeu jeu_p) {
-		this.jeu = jeu_p;
+		this.jeu_a_resoudre = jeu_p;
 	}
 
-	
+	public Jeu getSolution() {
+		
+		if ( this.resoudre() ) {
+			jeu_resolu = new Jeu(this.jeu_a_resoudre.getLargeur(), listeRangee);	
+		} 
+		
+		return this.jeu_resolu;
+	}
+
 	// resolution du jeu, c-a-d qu'on range les triominos dans l'ordre,
 	// pour ensuite pouvoir les afficher en pyramide grace a l'afficheur.
-	public Jeu resoudre() {
+	private boolean resoudre() {
+	// l'objectif de cette methode est de creer une arraylist rangee dans l'ordre d'affichage de la pyramide
+		
 		boolean sol_trouvee = false;
+		
 		/**
-		* Données : ensemble de triominos à Résultat : soit true, auquel cas la sonext_pos = next(pos, n);
-		* next_pos = next(pos, n)
+		* Données : ensemble de triominos à poser T, plateau P, position pos, largeur du plateau n
+		* Résultat : soit true, auquel cas la solution est P, sinon false
+		* next_pos = next(pos, n);
+		* 
 		* si next_pos = fin alors
 		*   retourner true;
 		* sinon
@@ -39,12 +56,8 @@ public class Solveur {
 		*   retourner false;
 		* fsi
 		*/
-
-		if (!sol_trouvee){
-			return null;
-		} else {
-			return this.jeu;
-		}
+		
+		return sol_trouvee;
 	}
-
+	
 }

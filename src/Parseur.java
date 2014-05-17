@@ -27,7 +27,7 @@ public class Parseur {
 			
 			// Creation du solveur 
 			Solveur solv = new Solveur(jeu_non_resolu);
-			Jeu jeu_resolu = solv.resoudre();
+			Jeu jeu_resolu = solv.getSolution();
 			
 				if (jeu_resolu == null){
 				// Si le jeu n'a pas de solution
