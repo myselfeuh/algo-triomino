@@ -13,6 +13,8 @@ public class Solveur {
 	private ArrayList<Triomino> liste_rangee;
 	private int N;
 	private int nb_essais;
+	private int nb_trio_places = 0;
+	private int nb_trio_places_max = 0;
 	
 	// initialisation des variables dans le constructeur
 	public Solveur(Jeu jeu_p) {
@@ -71,26 +73,29 @@ public class Solveur {
 		* fsi
 		*/
 		boolean sol_trouvee = false;
-		boolean contraintes_ok = false;
 		int next_pos = this.next();
 		
 		nb_essais++;
+		
+		System.out.println("Nb trio places : " + nb_trio_places);
 		
 		if ( next_pos == -1 ) {
 			sol_trouvee = true;
 		} else {
 			for (int k = 0; k < liste_a_ranger.size(); k++) {
 				Triomino t = liste_a_ranger.get(k); 
-				liste_a_ranger.remove(t);
+				liste_a_ranger.remove(k);
 				
-				for (int i = 0; i < 3; i++) {
+				boolean contraintes_ok = false;
+				for (int i = 0; i < 3 && !contraintes_ok; i++) {
 				// on a 3 essais possible par triomino et on le tourne 2 fois maximum
-					if (!contraintes_ok) {
-					// si le triomino ne respecte pas les contraintes, on le tourne et on reessaye :
+				// si le triomino ne respecte pas les contraintes, on le tourne et on reessaye :
 					
 						if ( contraintes_ok = this.verifContraintes(t, pos) ) {
 						// si les contraintes sont respectees on pose le triomino
 							liste_rangee.add(pos, t);
+							this.nb_trio_places++;
+							this.afficheSolutionInterm();
 							
 							if ( this.resoudre(next_pos) ) {
 							// si l'appel suivant a la fonction resoudre renvoit true alors c'est gagné
@@ -98,23 +103,34 @@ public class Solveur {
 							} else {
 							// sinon on enleve ce triomino
 								liste_rangee.remove(pos);
+								this.nb_trio_places--;
 							}
 						} else {
 							t.rotation();
 						}
 					}
-				}
 				
 				if (!sol_trouvee) {
 				// si on a pas trouve on remet le triomino dans la liste des triominos a ranger
-					liste_a_ranger.add(k,t);
+					liste_a_ranger.add(k, t);
 				}	
 			}
 			// sol_trouvee = false;
 		} 
 		return sol_trouvee;
 	}
-	
+
+	// Affiche une pyramide intermediaire si un triomino supplementaire est pose
+	private void afficheSolutionInterm() {
+		// if (nb_trio_places > nb_trio_places_max ) {
+			nb_trio_places_max = nb_trio_places;
+			Jeu jeu_interm = new Jeu((int) Math.sqrt(liste_rangee.size()), this.liste_rangee);
+			Afficheur aff_interm = new Afficheur(jeu_interm);
+			aff_interm.afficherPyramide();
+		// }
+	}
+
+	// renvoit la position du triomino suivant a placer dans la liste_rangee
 	private int next() {
 		if (liste_rangee.size() < N*N ) {
 			return liste_rangee.size()+1;
@@ -129,10 +145,11 @@ public class Solveur {
 		int index_ligne = pos - etage*etage;
 		
 		if (pos == 0 || pos %N == 1) {
+		// si le triomino est le 1er ou en debut de ligne alors il n'y a rien a verifier
 			verif = true;
 		} else if (index_ligne %2 == 0) {
-			// verifier a gauche
-			verif = ( t.getLeft() == liste_rangee.get(pos -1).getRight() );
+		// si le triomino a la tete en haut, alors il faut verifier sa gauche avec la gauche du triomino precedent
+			verif = ( t.getLeft() == liste_rangee.get(pos -1).getLeft() );
 		} else if (index_ligne %2 == 1) {
 		// si le triomino a la tete en bas, alors il faut le comparer avec celui du dessus et celui de gauche
 			// j est la position du triomino du dessus
