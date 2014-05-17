@@ -56,7 +56,7 @@ public class Parseur {
 		
 		try {
 			// redirection de stdin pour que Eclipse le prenne en compte
-			System.setIn(new FileInputStream("FichierSource3.txt"));
+			System.setIn(new FileInputStream("FichierSourceEnonce.txt"));
 			
 			bufReader = new BufferedReader(new InputStreamReader(System.in));
 		    
