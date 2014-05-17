@@ -31,7 +31,7 @@ public class Solveur {
 		System.out.println("AVANT => Taille liste a ranger : " + liste_a_ranger.size() 
 						+ " - Taille liste rangee : " + liste_rangee.size());
 		
-		if ( this.resoudre(0) ) {
+		if ( this.resoudreV2(0) ) {
 			jeu_resolu = new Jeu(this.jeu_a_resoudre.getLargeur(), liste_rangee);	
 		} 
 
@@ -42,10 +42,43 @@ public class Solveur {
 		return this.jeu_resolu;
 	}
 
+	// Version 2 avec des return directement a l'interieur du code 
+	// (Fuck l'esthetique mec !)
+	private boolean resoudreV2(int pos) {
+		nb_essais++;
+		
+		int next_pos = this.next();
+		
+		if (next_pos == -1) {
+			return true;
+		} else {
+			for (int k = 0; k < liste_a_ranger.size(); k++) {
+				Triomino t = liste_a_ranger.get(k); 
+				liste_a_ranger.remove(k);
+				
+				for (int i = 0; i < 3; i++) {
+					
+					if ( this.verifContraintes(t, pos) ) {
+						liste_rangee.add(pos, t);
+						
+						if ( this.resoudreV2(next_pos) ) {
+							return true;
+						}
+						liste_rangee.remove(pos);
+					}
+					t.rotation();
+				}
+				liste_a_ranger.add(k, t);
+			}
+			return false;
+		}
+	
+	}
+
 	// resolution du jeu, c-a-d qu'on range les triominos dans l'ordre,
 	// pour ensuite pouvoir les afficher en pyramide grace a l'afficheur.
 	// l'objectif de cette methode est de creer une arraylist rangee dans l'ordre d'affichage de la pyramide
-	private boolean resoudre(int pos) {
+	private boolean resoudreV1(int pos) {
 			
 		/**
 		* Données : ensemble de triominos à poser T, plateau P, position pos, largeur du plateau n
@@ -61,8 +94,8 @@ public class Solveur {
 		*       si contraintes(t, pos, P) alors
 		*	      placer(P, t, pos);
 		*         si resoudre(T , P, next) alors
-		*	    retourner true;
-		*	  fsi
+		*	    	retourner true;
+		*	 	  fsi
 		*         enlever(P, t, pos);
 		*       fsi
 		*       rotation(t, r);
@@ -76,7 +109,6 @@ public class Solveur {
 		int next_pos = this.next();
 		
 		nb_essais++;
-		
 		
 		if ( next_pos == -1 ) {
 			sol_trouvee = true;
@@ -97,7 +129,7 @@ public class Solveur {
 							System.out.println("Nb trio places : " + nb_trio_places);
 							this.afficheSolutionInterm();
 							
-							if ( this.resoudre(next_pos) ) {
+							if ( this.resoudreV1(next_pos) ) {
 							// si l'appel suivant a la fonction resoudre renvoit true alors c'est gagné
 								sol_trouvee = true;
 							} else {

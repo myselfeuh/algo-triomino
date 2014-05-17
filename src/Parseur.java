@@ -56,15 +56,15 @@ public class Parseur {
 		
 		try {
 			// redirection de stdin pour que Eclipse le prenne en compte
-			System.setIn(new FileInputStream("FichierSourceEnonce.txt"));
+			System.setIn(new FileInputStream("FichierSource3.txt"));
 			
 			bufReader = new BufferedReader(new InputStreamReader(System.in));
 		    
 			String[] middles, middle, bottoms;
 
 			middle = new String[2];
-			middles = new String[10];
-			bottoms = new String[10];
+			middles = new String[16];
+			bottoms = new String[16];
 			
 			// initialisation bidon pour démarrer la boucle
 			String input = "initialisation";
