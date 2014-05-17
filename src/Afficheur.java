@@ -19,9 +19,9 @@ public class Afficheur {
 		
 		// il place les triominos dans les colonnes du plateau
 		int k = 0;
-		for (int i = 0; i < jeu.getLargeur(); i++) {
+		for (int i = 0; i < jeu.getLargeur() && k < jeu.getListeTriominos().size(); i++) {
 		// il y a N (size) colonnes dans le plateau
-			for (int j = 0; j < 2*i+1; j++) {
+			for (int j = 0; j < 2*i+1 && k < jeu.getListeTriominos().size(); j++) {
 			// il y a 2*i+1 case dans la colonne i
 				// il recupere le k ieme triomino dans le jeu et le place dans le plateau
 				p.set(i, j, jeu.getTriomino(k));
@@ -29,7 +29,6 @@ public class Afficheur {
 			}
 		}
 		affiche_plateau_mini(p);
-		System.out.println("");
 		System.out.println("");
 	}
 

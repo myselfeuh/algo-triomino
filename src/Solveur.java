@@ -77,7 +77,6 @@ public class Solveur {
 		
 		nb_essais++;
 		
-		System.out.println("Nb trio places : " + nb_trio_places);
 		
 		if ( next_pos == -1 ) {
 			sol_trouvee = true;
@@ -95,6 +94,7 @@ public class Solveur {
 						// si les contraintes sont respectees on pose le triomino
 							liste_rangee.add(pos, t);
 							this.nb_trio_places++;
+							System.out.println("Nb trio places : " + nb_trio_places);
 							this.afficheSolutionInterm();
 							
 							if ( this.resoudre(next_pos) ) {
@@ -105,9 +105,9 @@ public class Solveur {
 								liste_rangee.remove(pos);
 								this.nb_trio_places--;
 							}
-						} else {
+						} // else {
 							t.rotation();
-						}
+						// }
 					}
 				
 				if (!sol_trouvee) {
@@ -124,7 +124,7 @@ public class Solveur {
 	private void afficheSolutionInterm() {
 		// if (nb_trio_places > nb_trio_places_max ) {
 			nb_trio_places_max = nb_trio_places;
-			Jeu jeu_interm = new Jeu((int) Math.sqrt(liste_rangee.size()), this.liste_rangee);
+			Jeu jeu_interm = new Jeu( (int) Math.ceil(Math.sqrt(liste_rangee.size())), this.liste_rangee );
 			Afficheur aff_interm = new Afficheur(jeu_interm);
 			aff_interm.afficherPyramide();
 		// }

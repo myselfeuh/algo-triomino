@@ -11,6 +11,11 @@ public class ColonneTriominos {
 	}
 
 	Triomino get(int j) {
-		return colonne[j];
+		if (colonne[j] != null ) {
+			return colonne[j];
+		} else {
+			return (new Triomino(0, 0, 0));
+		}
+		
 	}
 }
