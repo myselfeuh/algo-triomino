@@ -32,29 +32,10 @@ public class Afficheur {
 		System.out.println("");
 	}
 
-	/*  
-	 * conversion d'un entier positif (<62) en caractere [0-9A-Za-z]
-	 * ! inutile car on fixe la base a 16 !
-	 */
-//	static char onechar(int value) {
-//		if (value >= 0) {
-//			if (value < 10) {
-//			// si la valeur est inferieure a 10 on l'affiche simplement
-//				return (char) ('0'+value);
-//			} else if (value < 36) {
-//				return (char) ('A'+value-10);
-//			} else if (value < 62) {
-//				return (char) ('a'+value-36);
-//			}
-//		} 
-//		return('\0');
-//	}
 	
-
 	/*
 	 * affiche un plateau, meme partiellement rempli.
 	 */
-
 	private static void affiche_plateau_mini(Plateau p) {
 				
 		for (int i = 0 ; i < p.largeur ; i++) {

@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -25,12 +24,7 @@ public class Parseur {
 			// Affichage du probleme a resoudre
 			System.out.println("Probleme " + (i+1) + " :");
 			jeu_non_resolu.affiche();
-			
-			// debug
-			// Afficheur aff1 = new Afficheur(jeu_non_resolu);
-			// aff1.afficherPyramide();
-			// fin debug
-			
+						
 			// Creation du solveur 
 			Solveur solv = new Solveur(jeu_non_resolu);
 			Jeu jeu_resolu = solv.getSolution();
@@ -55,8 +49,6 @@ public class Parseur {
 		BufferedWriter bufWriter = null;
 		
 		try {
-			// redirection de stdin pour que Eclipse le prenne en compte
-			System.setIn(new FileInputStream("FichierSource3.txt"));
 			
 			bufReader = new BufferedReader(new InputStreamReader(System.in));
 		    
