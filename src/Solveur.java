@@ -176,7 +176,7 @@ public class Solveur {
 		int etage = (int) Math.sqrt(pos); 
 		int index_ligne = pos - etage*etage;
 		
-		if (pos == 0 || pos %N == 1) {
+		if (index_ligne == 0) {
 		// si le triomino est le 1er ou en debut de ligne alors il n'y a rien a verifier
 			verif = true;
 		} else if (index_ligne %2 == 0) {
